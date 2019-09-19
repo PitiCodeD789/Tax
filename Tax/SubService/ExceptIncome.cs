@@ -88,7 +88,16 @@ namespace Tax.SubService
                 providentFund = checkFund;
             }
             checkFund -= providentFund;
-            return providentFund;
+            decimal exProvidentFund = 0;
+            if (providentFund > 10000)
+            {
+                exProvidentFund = providentFund - 10000;
+            }
+            else
+            {
+                exProvidentFund = 0;
+            }
+            return exProvidentFund;
         }
     }
 }

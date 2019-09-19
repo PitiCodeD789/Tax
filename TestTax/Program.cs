@@ -14,7 +14,7 @@ namespace TestTax
                  AnnaulIncome = 100000000,
                  WorkThai = true,
                  StatusStayThai = true,
-                 ProvidentFund = 0,
+                 ProvidentFund = 150000,
                  GovermentFund = 0,
                  TeacherAidFund = 0,
                  IsDisabled = false,
@@ -58,7 +58,7 @@ namespace TestTax
                  DonateFee = 0,
             };
             var result = mainTax.MainCalculate(command);
-            Console.WriteLine("First Page :");
+            Console.WriteLine("First Page :\n");
             Console.WriteLine("AnnaulIncome : " + result.MainValue.AnnaulIncome.ToString("#,##0.00"));
             Console.WriteLine("ExceptValue : " + result.MainValue.ExceptValue.ToString("#,##0.00"));
             Console.WriteLine("IncomeDifExcept : " + result.MainValue.IncomeDifExcept.ToString("#,##0.00"));
@@ -72,8 +72,14 @@ namespace TestTax
             Console.WriteLine("IncomeDifDonate : " + result.MainValue.IncomeDifDonate.ToString("#,##0.00"));
             Console.WriteLine("First Tax : " + result.MainValue.FirstTax.ToString("#,##0.00"));
             Console.WriteLine("\n---------------------------------------------------------------------------------\n");
-            Console.WriteLine("Second Page :");
-            Console.WriteLine("First Tax : " + result.MainValue.FirstTax.ToString("#,##0.00"));
+            Console.WriteLine("Second Page :\n");
+            Console.WriteLine("ExceptValue : " + result.ExceptResult.ExceptValue.ToString("#,##0.00"));
+            Console.WriteLine("ExProvidentFund : " + result.ExceptResult.ExProvidentFund.ToString("#,##0.00"));
+            Console.WriteLine("ExGovernmentFund : " + result.ExceptResult.ExGovernmentFund.ToString("#,##0.00"));
+            Console.WriteLine("ExTeacherAidFund : " + result.ExceptResult.ExTeacherAidFund.ToString("#,##0.00"));
+            Console.WriteLine("ExceptElderly : " + result.ExceptResult.ExceptElderly.ToString("#,##0.00"));
+            Console.WriteLine("ExUnemployFee : " + result.ExceptResult.ExUnemployFee.ToString("#,##0.00"));
+            Console.WriteLine("CheckFund : " + result.ExceptResult.CheckFund.ToString("#,##0.00"));
         }
     }
 }
