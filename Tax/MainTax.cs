@@ -9,7 +9,8 @@ namespace Tax
 {
     public class MainTax
     {
-        private readonly ExceptIncome _exceptIncome = new ExceptIncome(); 
+        private readonly ExceptIncome _exceptIncome = new ExceptIncome();
+        private readonly OtherService _otherService = new OtherService();
         public ResultModel MainCalculate(TaxCommand command)
         {
             decimal annualIncome = command.AnnaulIncome;
@@ -45,7 +46,8 @@ namespace Tax
                 UnemployFee = unemployFee,
             };
             var exceptResult = _exceptIncome.MainCalculate(exceptCommand);
-            mainValue.ExceptValue = exceptResult.ExceptValue;
+            decimal exceptValue = _otherService.MoreThan(exceptResult.ExceptValue, annualIncome);
+            mainValue.ExceptValue = exceptValue
 
             decimal incomeDifExcept = annualIncome - exceptResult.ExceptValue;
             mainValue.IncomeDifExcept = incomeDifExcept;

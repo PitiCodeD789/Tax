@@ -7,6 +7,8 @@ namespace Tax.SubService
 {
     public class Allowance
     {
+        private readonly OtherService _otherService = new OtherService();
+
         private decimal checkFund;
         public decimal CheckFund
         {
@@ -35,12 +37,21 @@ namespace Tax.SubService
             set { addLifeInsure = value; }
         }
 
+        private decimal checkShop;
+        public decimal CheckShop
+        {
+            get { return checkShop; }
+            set { checkShop = value; }
+        }
+
+
         public Allowance()
         {
             checkFund = 500000;
             annualIncome = 0;
             checkLife = 100000;
             addLifeInsure = 0;
+            checkShop = 15000;
         }
 
         public AllowanceResult MainAllowance(AllowanceCommand command)
@@ -92,7 +103,7 @@ namespace Tax.SubService
 
             decimal lifeInsureFees = command.LifeInsureFees;
             decimal spouseLifeInsureFees = command.SpouseLifeInsureFees;
-            decimal lifeAllo = LifeInsure(lifeInsureFees, spouseLifeInsureFees);
+            decimal lifeAllo = LifeInsure(lifeInsureFees, spouseLifeInsureFees, isSpouse);
             allowanceResult.LifeAllo = lifeAllo;
             allowance += lifeAllo;
 
@@ -112,7 +123,218 @@ namespace Tax.SubService
             allowanceResult.NationalAllo = nationalAllo;
             allowance += nationalAllo;
 
+            decimal payRMF = command.PayRMF;
+            decimal rmfAllo = RMF(payRMF);
+            allowanceResult.RMFAllo = rmfAllo;
+            allowance += rmfAllo;
 
+            decimal payLTF = command.PayLTF;
+            decimal ltfAllo = LTF(payLTF);
+            allowanceResult.LTFAllo = payLTF;
+            allowance += payLTF;
+
+            decimal payInterestHouse = command.PayInterestHouse;
+            decimal numCoBorrower = command.NumCoBorrower;
+            decimal interestHouseAllo = InterestHouse(payInterestHouse, numCoBorrower);
+            allowanceResult.InterestHouseAllo = interestHouseAllo;
+            allowance += interestHouseAllo;
+
+            decimal firstHouse2015Fee = command.FirstHouse2015Fee;
+            decimal firstHouse2015Allo = FirstHouse2015(firstHouse2015Fee);
+            allowanceResult.FirstHouse2015Allo = firstHouse2015Allo;
+            allowance += firstHouse2015Allo;
+
+            decimal firstHouse2019Fee = command.FirstHouse2019Fee;
+            decimal firstHouse2019Allo = FirstHouse2019(firstHouse2015Fee, firstHouse2019Fee);
+            allowanceResult.FirstHouse2019Allo = firstHouse2019Allo;
+            allowance += firstHouse2019Allo;
+
+            decimal socialSecurityFee = command.SocialSecurityFee;
+            decimal socialSecurityAllo = SocialSecurity(socialSecurityFee);
+            allowanceResult.SocialSecurityAllo = socialSecurityAllo;
+            allowance += socialSecurityAllo;
+
+            decimal securityCameraFee = command.SecurityCameraFee;
+            decimal annualIncomeExcentOneOrTwo = command.AnnualIncomeExcentOneOrTwo;
+            decimal securityCameraAllo = SecurityCamera(securityCameraFee, annualIncomeExcentOneOrTwo);
+            allowanceResult.SecurityCameraAllo = securityCameraAllo;
+            allowance += securityCameraAllo;
+
+            decimal creditFee = command.CreditFee;
+            decimal creditAllo = Credit(creditFee, annualIncomeExcentOneOrTwo);
+            allowanceResult.CreditAllo = creditAllo;
+            allowance += creditAllo;
+
+            decimal mainTown = command.MainTown;
+            decimal subTown = command.SubTown;
+            decimal tourAllo = Tour(mainTown, subTown);
+            allowanceResult.TourAllo = tourAllo;
+            allowance += tourAllo;
+
+            decimal startupFee = command.StartupFee;
+            decimal startupAllo = Startup(startupFee);
+            allowanceResult.StartupAllo = startupAllo;
+            allowance += startupAllo;
+
+            decimal antenatalFee = command.AntenatalFee;
+            decimal antenatalAllo = Antenatal(antenatalFee);
+            allowanceResult.AntenatalAllo = antenatalAllo;
+            allowance += antenatalAllo;
+
+            decimal politicalPartyDonate = command.PoliticalPartyDonate;
+            decimal politicalPartyAllo = PoliticalParty(politicalPartyDonate);
+            allowanceResult.PoliticalPartyAllo = politicalPartyAllo;
+            allowance += politicalPartyAllo;
+
+            decimal tireFee = command.TireFee;
+            decimal tireAllo = ShopTire(tireFee);
+            allowanceResult.TireAllo = tireAllo;
+            allowance += tireAllo;
+
+            decimal bookFee = command.BookFee;
+            decimal bookAllo = ShopBook(bookFee);
+            allowanceResult.BookAllo = bookAllo;
+            allowance += bookAllo;
+
+            decimal otopFee = command.OTOPFee;
+            decimal otopAllo = ShopOTOP(otopFee);
+            allowanceResult.OTOPAllo = otopAllo;
+            allowance += otopAllo;
+
+            allowanceResult.AllowanceValue = allowance;
+
+            return allowanceResult;
+        }
+
+        public decimal ShopOTOP(decimal otopFee)
+        {
+            decimal otopAllo = _otherService.MoreThan(otopFee, checkShop);
+            checkShop -= otopAllo;
+            return otopAllo;
+        }
+
+        public decimal ShopBook(decimal bookFee)
+        {
+            decimal bookAllo = _otherService.MoreThan(bookFee, checkShop);
+            checkShop -= bookAllo;
+            return bookAllo;
+        }
+
+        public decimal ShopTire(decimal tireFee)
+        {
+            decimal tireAllo = _otherService.MoreThan(tireFee, checkShop);
+            checkShop -= tireAllo;
+            return tireAllo;
+        }
+
+        public decimal PoliticalParty(decimal politicalPartyDonate)
+        {
+            decimal limitPolitical = 10000;
+            decimal politicalPartyAllo = _otherService.MoreThan(politicalPartyDonate, limitPolitical);
+            return politicalPartyAllo;
+        }
+
+        private decimal Antenatal(decimal antenatalFee)
+        {
+            decimal antenatalAllo = antenatalFee;
+            return antenatalAllo;
+        }
+
+        public decimal Startup(decimal startupFee)
+        {
+            decimal limitStartup = 100000;
+            decimal startupAllo = _otherService.MoreThan(startupFee, limitStartup);
+            return startupAllo;
+        }
+
+        public decimal Tour(decimal mainTown, decimal subTown)
+        {
+            decimal limitMain = 15000;
+            decimal limitSub = 20000;
+            mainTown = _otherService.MoreThan(mainTown, limitMain);
+            decimal tourAllo = mainTown + subTown;
+            tourAllo = _otherService.MoreThan(tourAllo, limitSub);
+            return tourAllo;
+        }
+
+        public decimal Credit(decimal creditFee, decimal annualIncomeExcentOneOrTwo)
+        {
+            decimal creditAllo = _otherService.MoreThan(creditFee, annualIncomeExcentOneOrTwo);
+            return creditAllo;
+        }
+
+        public decimal SecurityCamera(decimal securityCameraFee, decimal annualIncomeExcentOneOrTwo)
+        {
+            decimal securityCameraAllo = _otherService.MoreThan(securityCameraFee, annualIncomeExcentOneOrTwo);
+            return securityCameraAllo;
+        }
+
+        public decimal SocialSecurity(decimal socialSecurityFee)
+        {
+            decimal limitSocialSecurity = 9000;
+            var socialSecurityAllo = _otherService.MoreThan(socialSecurityFee, limitSocialSecurity);
+            return socialSecurityAllo;
+        }
+
+        public decimal FirstHouse2019(decimal firstHouse2015Fee, decimal firstHouse2019Fee)
+        {
+            decimal limitHouse2019 = 200000;
+            decimal firstHouse2019Allo = _otherService.MoreThan(firstHouse2019Fee, limitHouse2019);
+            if(firstHouse2019Fee > 5000000 || firstHouse2015Fee > 0)
+            {
+                firstHouse2019Allo = 0;
+            }
+            return firstHouse2019Allo;
+        }
+
+        public decimal FirstHouse2015(decimal firstHouse2015Fee)
+        {
+            decimal firstHouse2015Allo = (firstHouse2015Fee * 0.2m) / 5;
+            if(firstHouse2015Fee > 3000000)
+            {
+                firstHouse2015Allo = 0;
+            }
+            return firstHouse2015Allo;
+        }
+
+        public decimal InterestHouse(decimal payInterestHouse, decimal numCoBorrower)
+        {
+            decimal limitInterestHouse = 100000;
+            payInterestHouse = _otherService.MoreThan(payInterestHouse, limitInterestHouse);
+            decimal interestHouseAllo = payInterestHouse / numCoBorrower;
+            return interestHouseAllo;
+        }
+
+        public decimal LTF(decimal payLTF)
+        {
+            decimal limitPercent = 0.15m;
+            if(payLTF > limitPercent)
+            {
+                payLTF = limitPercent;
+            }
+            decimal limitLTF = 500000;
+            if(payLTF > limitLTF)
+            {
+                payLTF = limitLTF;
+            }
+            decimal ltfAllo = payLTF;
+            return ltfAllo;
+        }
+
+        public decimal RMF(decimal payRMF)
+        {
+            decimal limitPercent = 0.15m;
+            if(payRMF > limitPercent)
+            {
+                payRMF = limitPercent;
+            }
+            if(payRMF > checkFund)
+            {
+                payRMF = checkFund;
+            }
+            checkFund -= payRMF;
+            decimal rmfAllo = payRMF;
+            return rmfAllo;
         }
 
         public decimal National(decimal nationalFund)
@@ -157,7 +379,7 @@ namespace Tax.SubService
             return healthAllo;
         }
 
-        public decimal LifeInsure(decimal lifeInsureFees, decimal spouseLifeInsureFees)
+        public decimal LifeInsure(decimal lifeInsureFees, decimal spouseLifeInsureFees, bool isSpouse)
         {
             lifeInsureFees += addLifeInsure;
             if(lifeInsureFees > checkLife)
@@ -169,6 +391,10 @@ namespace Tax.SubService
             if(spouseLifeInsureFees > limitSpouse)
             {
                 spouseLifeInsureFees = limitSpouse;
+            }
+            if (!isSpouse)
+            {
+                spouseLifeInsureFees = 0;
             }
             decimal lifeAllo = lifeInsureFees + spouseLifeInsureFees;
             return lifeAllo;
