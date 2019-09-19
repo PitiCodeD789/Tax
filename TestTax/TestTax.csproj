@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tax\Tax.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="EWalletV2.Domain">
+      <HintPath>D:\test\EWalletV2\Applications\EWalletV2.Domain\bin\Debug\netcoreapp2.2\EWalletV2.Domain.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
