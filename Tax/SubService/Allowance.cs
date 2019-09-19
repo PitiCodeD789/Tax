@@ -130,7 +130,7 @@ namespace Tax.SubService
 
             decimal payLTF = command.PayLTF;
             decimal ltfAllo = LTF(payLTF);
-            allowanceResult.LTFAllo = payLTF;
+            allowanceResult.LTFAllo = ltfAllo;
             allowance += payLTF;
 
             decimal payInterestHouse = command.PayInterestHouse;
@@ -300,15 +300,19 @@ namespace Tax.SubService
         public decimal InterestHouse(decimal payInterestHouse, decimal numCoBorrower)
         {
             decimal limitInterestHouse = 100000;
-            payInterestHouse = _otherService.MoreThan(payInterestHouse, limitInterestHouse);
-            decimal interestHouseAllo = payInterestHouse / numCoBorrower;
+            decimal interestHouseAllo = 0;
+            if(payInterestHouse > 0)
+            {
+                payInterestHouse = _otherService.MoreThan(payInterestHouse, limitInterestHouse);
+                interestHouseAllo = payInterestHouse / numCoBorrower;
+            }
             return interestHouseAllo;
         }
 
         public decimal LTF(decimal payLTF)
         {
             decimal limitPercent = 0.15m;
-            if(payLTF > limitPercent)
+            if (payLTF > annualIncome * limitPercent)
             {
                 payLTF = limitPercent;
             }
@@ -425,12 +429,16 @@ namespace Tax.SubService
         public decimal ParentalInsure(decimal parentalInsureFees, int numCoParentalInsure)
         {
             decimal limitParental = 15000;
-            parentalInsureFees /= numCoParentalInsure;
-            if (parentalInsureFees > limitParental)
+            decimal parentalInsureAllo = 0;
+            if (parentalInsureFees > 0)
             {
-                parentalInsureFees = limitParental;
+                parentalInsureFees /= numCoParentalInsure;
+                if (parentalInsureFees > limitParental)
+                {
+                    parentalInsureFees = limitParental;
+                }
+                parentalInsureAllo = parentalInsureFees;
             }
-            decimal parentalInsureAllo = parentalInsureFees;
             return parentalInsureAllo;
         }
 

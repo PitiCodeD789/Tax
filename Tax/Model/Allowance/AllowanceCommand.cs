@@ -6,42 +6,42 @@ namespace Tax.Model.Allowance
 {
     public class AllowanceCommand
     {
-        public decimal CheckFund { get; internal set; }
-        public decimal AnnualIncome { get; internal set; }
-        public bool IsSpouse { get; internal set; }
-        public int NumChildPayTax { get; internal set; }
-        public int NumChildBefor2018 { get; internal set; }
-        public int NumChild2018 { get; internal set; }
-        public int Protege { get; internal set; }
-        public int NumParental { get; internal set; }
-        public int NumFamilyDisabled { get; internal set; }
-        public bool IsOtherDisabled { get; internal set; }
-        public decimal ParentalInsureFees { get; internal set; }
-        public int NumCoParentalInsure { get; internal set; }
-        public decimal LongevityInsurance { get; internal set; }
-        public decimal LifeInsureFees { get; internal set; }
-        public decimal SpouseLifeInsureFees { get; internal set; }
-        public decimal HealthInsureFees { get; internal set; }
-        public decimal ProvidentFund { get; internal set; }
-        public decimal ExProvidentFund { get; internal set; }
-        public decimal NationalFund { get; internal set; }
-        public decimal PayRMF { get; internal set; }
-        public decimal PayLTF { get; internal set; }
-        public decimal PayInterestHouse { get; internal set; }
-        public decimal NumCoBorrower { get; internal set; }
-        public decimal FirstHouse2015Fee { get; internal set; }
-        public decimal FirstHouse2019Fee { get; internal set; }
-        public decimal SocialSecurityFee { get; internal set; }
-        public decimal SecurityCameraFee { get; internal set; }
-        public decimal AnnualIncomeExcentOneOrTwo { get; internal set; }
-        public decimal CreditFee { get; internal set; }
-        public decimal MainTown { get; internal set; }
-        public decimal SubTown { get; internal set; }
-        public decimal StartupFee { get; internal set; }
-        public decimal AntenatalFee { get; internal set; }
-        public decimal PoliticalPartyDonate { get; internal set; }
-        public decimal TireFee { get; internal set; }
-        public decimal BookFee { get; internal set; }
-        public decimal OTOPFee { get; internal set; }
+        public decimal CheckFund { get; set; }
+        public decimal AnnualIncome { get; set; }
+        public bool IsSpouse { get; set; }
+        public int NumChildPayTax { get; set; }
+        public int NumChildBefor2018 { get; set; }
+        public int NumChild2018 { get; set; }
+        public int Protege { get; set; }
+        public int NumParental { get; set; }
+        public int NumFamilyDisabled { get; set; }
+        public bool IsOtherDisabled { get; set; }
+        public decimal ParentalInsureFees { get; set; }
+        public int NumCoParentalInsure { get; set; }
+        public decimal LongevityInsurance { get; set; }
+        public decimal LifeInsureFees { get; set; }
+        public decimal SpouseLifeInsureFees { get; set; }
+        public decimal HealthInsureFees { get; set; }
+        public decimal ProvidentFund { get; set; }
+        public decimal ExProvidentFund { get; set; }
+        public decimal NationalFund { get; set; }
+        public decimal PayRMF { get; set; }
+        public decimal PayLTF { get; set; }
+        public decimal PayInterestHouse { get; set; }
+        public decimal NumCoBorrower { get; set; }
+        public decimal FirstHouse2015Fee { get; set; }
+        public decimal FirstHouse2019Fee { get; set; }
+        public decimal SocialSecurityFee { get; set; }
+        public decimal SecurityCameraFee { get; set; }
+        public decimal AnnualIncomeExcentOneOrTwo { get; set; }
+        public decimal CreditFee { get; set; }
+        public decimal MainTown { get; set; }
+        public decimal SubTown { get; set; }
+        public decimal StartupFee { get; set; }
+        public decimal AntenatalFee { get; set; }
+        public decimal PoliticalPartyDonate { get; set; }
+        public decimal TireFee { get; set; }
+        public decimal BookFee { get; set; }
+        public decimal OTOPFee { get; set; }
     }
 }

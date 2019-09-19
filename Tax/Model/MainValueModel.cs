@@ -11,5 +11,12 @@ namespace Tax.Model
         public decimal IncomeDifExcept { get; set; }
         public decimal ExpensesAllo { get; set; }
         public decimal IncomeDifExpenses { get; set; }
+        public decimal AllowanceValue { get; set; }
+        public decimal IncomeDifAllowance { get; set; }
+        public decimal DonateSpValue { get; set; }
+        public decimal IncomeDifDonateSp { get; set; }
+        public decimal DonateValue { get; set; }
+        public decimal IncomeDifDonate { get; set; }
+        public decimal FirstTax { get; set; }
     }
 }
